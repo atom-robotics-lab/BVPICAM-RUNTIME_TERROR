@@ -21,13 +21,36 @@ class CustomCollector(object):     ## Class for CustomCollector which helps us t
         cpu_usage = 7
         ramlal = 3  		  ## place the logic here to get the CPU Usage.
 
-        temp , heart = random.randint(25,40) , random.randint(65,80)
-        value = CounterMetricFamily("SERVER_STATUS", 'Help text', labels='value')
+        temp , heart , fall, smoke, humidity= random.randint(25,40) , random.randint(65,80) , random.randint(0,2) ,random.randint(300 , 400) , random.randint(0,100)
+        
+        value1 = CounterMetricFamily("SERVER_STATUS", 'Help text', labels='value')
         #value.add_metric(["server_status"], server_status)
-        value.add_metric(['TEMP'],temp)
-        value.add_metric(['HEART'],heart)
-        yield value
+        value1.add_metric(['TEMP'],temp)
 
+        value2 = CounterMetricFamily("SERVER_STATUS", 'Help text', labels='value')
+        value2.add_metric(['HEART'],heart)
+        
+        value3 = CounterMetricFamily("SERVER_STATUS", 'Help text', labels='value')
+        value3.add_metric(['SMOKE'],smoke)
+
+        value5 = CounterMetricFamily("SERVER_STATUS", 'Help text', labels='value')
+        value5.add_metric(['HUMIDITY'],humidity)
+
+        battery = 75
+
+        value4 = CounterMetricFamily("SERVER_STATUS", 'Help text', labels='value')
+        value4.add_metric(['BATTERY'],battery)
+
+
+        
+        
+        #value.add_metric(['Fall'] ,fall)
+        #value.add_metric(['Smoke'], smoke)
+        yield value1
+        yield value2
+        yield value3
+        yield value4
+        yield value5
 
 
 def run_http() :
@@ -47,6 +70,8 @@ if __name__ == '__main__':
     
         
     REGISTRY.register(CustomCollector())
+    #REGISTRY.register(CustomCollector())
+
     while True:
         time.sleep(30)		       ## To collect the metrics for every 30s.
 
